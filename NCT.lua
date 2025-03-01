@@ -69,7 +69,7 @@ remote = findRemote()
 if not remote then return end
 
 local worthTable = {}
-for i = 1, 1000 do
+for i = 1, 5000 do
     worthTable[i] = {math.huge}
 end
 
