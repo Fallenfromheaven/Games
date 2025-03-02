@@ -35,10 +35,7 @@ end
 
 local function findRemote()
 	local modulesFolder = ReplicatedStorage:FindFirstChild("Modules")
-	if not modulesFolder then
-		warn("Modules folder not found in ReplicatedStorage.")
-		return nil
-	end
+	if not modulesFolder then return nil end
 	local children = modulesFolder:GetChildren()
 	for _, obj in ipairs(children) do
 		if obj:IsA("ModuleScript") or obj:IsA("LocalScript") then
@@ -54,7 +51,6 @@ local function findRemote()
 			end
 		end
 	end
-	warn("LootSending remote not found.")
 	return nil
 end
 
@@ -70,9 +66,7 @@ for i = 1, 2500 do
 	worthTable[i] = {math.huge}
 end
 
-local args = {
-	[1] = { ["worth"] = worthTable }
-}
+local args = { [1] = { ["worth"] = worthTable } }
 
 local autoMoney = false
 local autoRebirth = false
@@ -113,6 +107,7 @@ local function spamCombined()
 	local player = Players.LocalPlayer
 	local leaderstats = player:WaitForChild("leaderstats")
 	local dollasStat = leaderstats:WaitForChild("Dollas")
+	local lastFired = tick()
 	while autoMoney and autoRebirth do
 		if firstRun then
 			for i = 1, 5 do
@@ -134,6 +129,7 @@ local function spamCombined()
 				ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Upgrades"):WaitForChild("ConfirmCheck"):FireServer(unpack(rebirthArgs))
 			end
 			firstRun = false
+			lastFired = tick()
 		else
 			if dollasStat.Value == 0 then
 				task.wait(3)
@@ -155,6 +151,27 @@ local function spamCombined()
 					local rebirthArgs = { [1] = workspace:WaitForChild(currentTycoon) }
 					ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Upgrades"):WaitForChild("ConfirmCheck"):FireServer(unpack(rebirthArgs))
 				end
+				lastFired = tick()
+			elseif tick() - lastFired >= 10 then
+				for i = 1, 5 do
+					local dynamicRemote = getRemote()
+					if dynamicRemote then
+						dynamicRemote:FireServer(unpack(args))
+					else
+						remote = findRemote()
+						while not remote do
+							task.wait(0)
+							remote = findRemote()
+						end
+					end
+					task.wait(spamDelay)
+				end
+				local currentTycoon = getCurrentTycoon()
+				if currentTycoon then
+					local rebirthArgs = { [1] = workspace:WaitForChild(currentTycoon) }
+					ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Upgrades"):WaitForChild("ConfirmCheck"):FireServer(unpack(rebirthArgs))
+				end
+				lastFired = tick()
 			end
 		end
 		task.wait(0.1)
@@ -163,15 +180,9 @@ end
 
 local function spamOutputMultiplier()
 	local currentTycoon = getCurrentTycoon()
-	if not currentTycoon then
-		warn("Tycoon not found in workspace.")
-		return
-	end
+	if not currentTycoon then return end
 	local tycoonFolder = workspace:FindFirstChild(currentTycoon)
-	if not tycoonFolder then
-		warn(currentTycoon, " folder not found in workspace.")
-		return
-	end
+	if not tycoonFolder then return end
 	while autoOutputMultiplier do
 		local buttonsFolder = tycoonFolder:FindFirstChild("Buttons")
 		if buttonsFolder then
@@ -192,8 +203,6 @@ local function spamOutputMultiplier()
 					end
 				end
 			end
-		else
-			warn("Buttons folder not found in " .. currentTycoon)
 		end
 		task.wait(0.5)
 	end
@@ -201,20 +210,11 @@ end
 
 local function activateAllButtons()
 	local currentTycoon = getCurrentTycoon()
-	if not currentTycoon then
-		warn("Tycoon folder not found in workspace.")
-		return
-	end
+	if not currentTycoon then return end
 	local tycoonFolder = workspace:FindFirstChild(currentTycoon)
-	if not tycoonFolder then
-		warn(currentTycoon, " folder not found in workspace.")
-		return
-	end
+	if not tycoonFolder then return end
 	local buttonsFolder = tycoonFolder:FindFirstChild("Buttons")
-	if not buttonsFolder then
-		warn("Buttons folder not found in " .. currentTycoon)
-		return
-	end
+	if not buttonsFolder then return end
 	while autoUpgrades do
 		for _, button in ipairs(buttonsFolder:GetChildren()) do
 			if button.Name ~= "PickupWeapon" then
