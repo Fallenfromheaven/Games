@@ -133,7 +133,7 @@ local function spamCombined()
 		else
 			if dollasStat.Value == 0 then
 				task.wait(3)
-				for i = 1, 5 do
+				for i = 1, 10 do
 					local dynamicRemote = getRemote()
 					if dynamicRemote then
 						dynamicRemote:FireServer(unpack(args))
