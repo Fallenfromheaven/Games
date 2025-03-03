@@ -8,13 +8,13 @@ local remoteParentName
 local currentTycoon = nil
 
 local team_tycoon_association = { 
-	["Neutral"] = nil,
-	["Blue Team"] = "TycoonA",
-	["Red Team"] = "TycoonB",
+	["Neutral"]     = nil,
+	["Blue Team"]   = "TycoonA",
+	["Red Team"]    = "TycoonB",
 	["Yeller Team"] = "TycoonC",
-	["Green Team"] = "TycoonD",
-	["Black Team"] = "TycoonE",
-	["Pink Team"] = "TycoonF",
+	["Green Team"]  = "TycoonD",
+	["Black Team"]  = "TycoonE",
+	["Pink Team"]   = "TycoonF",
 }
 
 local function updateTycoon()
