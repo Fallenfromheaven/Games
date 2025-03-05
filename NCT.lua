@@ -1,3 +1,4 @@
+-- dear game dev if your reading this dont just rename the remote (most useless remote update ever)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
@@ -34,39 +35,39 @@ local function getCurrentTycoon()
 end
 
 local function findRemote()
-	local modulesFolder = ReplicatedStorage:FindFirstChild("Modules")
-	if not modulesFolder then return nil end
-	local children = modulesFolder:GetChildren()
-	for _, obj in ipairs(children) do
-		if obj:IsA("ModuleScript") or obj:IsA("LocalScript") then
-			local success, result = pcall(function() return obj:GetChildren() end)
-			if success then
-				for _, child in ipairs(result) do
-					if child.Name == "LootSending" then
-						remote = child
-						remoteParentName = obj.Name
-						return remote
-					end
-				end
-			end
-		end
-	end
-	return nil
+    local modulesFolder = ReplicatedStorage:FindFirstChild("Modules")
+    if not modulesFolder then return nil end
+    for _, obj in ipairs(modulesFolder:GetChildren()) do
+        local lootRemote = obj:FindFirstChild("LootSendingButDifferentAndSkibbidyToilet")
+        if lootRemote then
+            remote = lootRemote
+            remoteParentName = obj.Name
+            return remote
+        end
+    end
+    return nil
 end
 
 local function getRemote()
-	return ReplicatedStorage.Modules:FindFirstChild(remoteParentName) and ReplicatedStorage.Modules[remoteParentName]:FindFirstChild("LootSending")
+    local parentModule = ReplicatedStorage.Modules:FindFirstChild(remoteParentName)
+    return parentModule and parentModule:FindFirstChild("LootSendingButDifferentAndSkibbidyToilet")
 end
 
 remote = findRemote()
-if not remote then return end
+if not remote then
+    findRemote()
+end
 
 local worthTable = {}
 for i = 1, 2500 do
-	worthTable[i] = {math.huge}
+    worthTable[i] = {math.huge}
 end
 
-local args = { [1] = { ["worth"] = worthTable } }
+local args = {
+    [1] = {
+        ["worth"] = worthTable
+    }
+}
 
 local autoMoney = false
 local autoRebirth = false
@@ -75,20 +76,19 @@ local autoUpgrades = false
 local spamDelay = 0
 
 local function spamRemote()
-	while autoMoney do
-		if autoRebirth then break end
-		local dynamicRemote = getRemote()
-		if dynamicRemote then
-			dynamicRemote:FireServer(unpack(args))
-		else
-			remote = findRemote()
-			while not remote do
-				task.wait(0)
-				remote = findRemote()
-			end
-		end
-		task.wait(spamDelay)
-	end
+    while autoMoney do
+        local dynamicRemote = getRemote()
+        if dynamicRemote then
+            dynamicRemote:FireServer(unpack(args))
+        else
+            remote = findRemote()
+            while not remote do
+                task.wait(0)
+                remote = findRemote()
+            end
+        end
+        task.wait(spamDelay)
+    end
 end
 
 local function spamRebirth()
