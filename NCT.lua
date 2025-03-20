@@ -1,4 +1,4 @@
--- dear game dev if your reading this dont just rename the remote (most useless remote update ever)
+-- dear game dev if your reading this dont just rename the remote (most useless remote update ever) also i can just copy paste the entire remote name if you think making the name extra long will change something you idiot
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
@@ -38,7 +38,7 @@ local function findRemote()
     local modulesFolder = ReplicatedStorage:FindFirstChild("Modules")
     if not modulesFolder then return nil end
     for _, obj in ipairs(modulesFolder:GetChildren()) do
-        local lootRemote = obj:FindFirstChild("LootSendingButDifferentAndSkibbidyToilet")
+        local lootRemote = obj:FindFirstChild("LootSendinghdollas7eventeenfartdontreadifyoureacheaterifyouareimsosorryyouhavetotypeallthisinjusttog")
         if lootRemote then
             remote = lootRemote
             remoteParentName = obj.Name
@@ -50,7 +50,7 @@ end
 
 local function getRemote()
     local parentModule = ReplicatedStorage.Modules:FindFirstChild(remoteParentName)
-    return parentModule and parentModule:FindFirstChild("LootSendingButDifferentAndSkibbidyToilet")
+    return parentModule and parentModule:FindFirstChild("LootSendinghdollas7eventeenfartdontreadifyoureacheaterifyouareimsosorryyouhavetotypeallthisinjusttog")
 end
 
 remote = findRemote()
