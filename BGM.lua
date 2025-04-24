@@ -24,7 +24,7 @@ task.wait(1)
 -- 3) If the condition is false, hop to a random server
 if not conditionMet() then
     print("Aura egg not found initiating teleport!")
-    queue_on_teleport("task.wait(1)loadstring(game:HttpGet('https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua'))()")
+    queue_on_teleport("task.wait(5)loadstring(game:HttpGet('https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua'))()")
     -- https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua
     TeleportService:Teleport(PLACE_ID, Players.LocalPlayer)  -- client teleport to random server :contentReference[oaicite:3]{index=3}
 else
