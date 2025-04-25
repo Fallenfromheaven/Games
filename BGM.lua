@@ -99,7 +99,7 @@ local embed = {
 -- 3) If the condition is false, hop to a random server
 if not conditionMet() then
     print("❌ aura-egg not found — initiating teleport!")
-    queue_on_teleport("task.wait(10)loadstring(game:HttpGet('https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua'))()")
+    queue_on_teleport("task.wait(15) loadstring(game:HttpGet('https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua'))()")
     task.wait(1)
     TeleportService:Teleport(PLACE_ID, Players.LocalPlayer)
 else
