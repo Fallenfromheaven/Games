@@ -22,7 +22,7 @@ local function conditionMet()
     end
 
     -- Return whether the "aura-egg" is found
-    return rifts:FindFirstChild("aura-egg") ~= nil
+    return rifts:FindFirstChild("aura-egg") ~= nil or rifts:FindFirstChild("royal-chest")
 end
 
 -- give a brief moment for any other initialization
@@ -100,6 +100,7 @@ local embed = {
 if not conditionMet() then
     print("❌ aura-egg not found — initiating teleport!")
     queue_on_teleport("task.wait(10)loadstring(game:HttpGet('https://raw.githubusercontent.com/Fallenfromheaven/Games/refs/heads/main/BGM.lua'))()")
+    task.wait(1)
     TeleportService:Teleport(PLACE_ID, Players.LocalPlayer)
 else
     print("✅ aura-egg found — staying in this server.")
