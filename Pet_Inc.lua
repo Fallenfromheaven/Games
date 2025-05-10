@@ -1,8 +1,9 @@
 ---------------- Variables
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
-local suffixes = {
+local Rayfield  = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local coinsdone = false
+local gemsdone  = false
+local suffixes  = {
 	["K"]   = 1e3,
 	["M"]   = 1e6,
 	["B"]   = 1e9,
@@ -112,8 +113,7 @@ local Toggle_3 = PetInc:CreateToggle({
     CurrentValue = false,
     Flag = "toggle_3",
     Callback = function(Value)
-        while Rayfield.Flags["toggle_3"].CurrentValue do
-            
+        while Rayfield.Flags["toggle_3"].CurrentValue and coinsdone == false do
             local path = game:GetService("Players").LocalPlayer.PlayerGui.CoinUpgrades.Bg.List
             local UpgradeList  = {
                 ["CoinMulti"]  = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.CoinUpgrades.Bg.List.CoinMulti.Buy.Cost.text),
@@ -140,7 +140,10 @@ local Toggle_3 = PetInc:CreateToggle({
             end
 
             local args = {"CoinUpgrade", lowestKey}
-            if tonumber(numericText) >= lowestValue then
+            if lowestValue == nil then
+                print("Coin Upgrades done!")
+                coinsdone = true
+            elseif numericText >= lowestValue then
                 game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
             end
             task.wait(0.5)
@@ -151,16 +154,48 @@ local Toggle_3 = PetInc:CreateToggle({
 local Divider_3 = PetInc:CreateDivider()
 
 local Toggle_4 = PetInc:CreateToggle({
-    Name = "Auto-Rank-Up",
+    Name = "Auto-Gem-Upgrades",
     CurrentValue = false,
     Flag = "toggle_4",
     Callback = function(Value)
         while Rayfield.Flags["toggle_4"].CurrentValue do
-            break
+            local path = game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List
+		    local UpgradeList  = {
+            	["GemMulti"]   = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.GemMulti.Buy.Cost.text),
+            	["CoinMulti"]  = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.CoinMulti.Buy.Cost.text),
+            	["EvolveGems"] = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.EvolveGems.Buy.Cost.text),
+            	["PetEquip"]   = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.PetEquip.Buy.Cost.text),
+            	["CoinSpeed"]  = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.CoinSpeed.Buy.Cost.text),
+            	["PetClone"]   = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.GemUpgrades.Bg.List.PetClone.Buy.Cost.text),
+            }
+            for key, value in pairs(UpgradeList) do    
+                if path[key].Max.Visible == true then
+                    UpgradeList[key] = nil
+                end
+            end
+            local lowestKey, lowestValue = nil, nil
+            local rawText = game:GetService("Players").LocalPlayer.PlayerGui.UI.Stats.Gems.TextLabel.Text
+            local numericText = ReverseFormattedNumber(rawText)
+
+            for key, value in pairs(UpgradeList) do
+                if value and (not lowestValue or value < lowestValue) then
+                    lowestKey, lowestValue = key, value
+                end
+            end
+
+            local args = {"GemUpgrade", lowestKey}
+            if lowestValue == nil then
+                print("Gem Upgrades done!")
+                gemsdone = true
+            elseif tonumber(numericText) >= lowestValue then
+                game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
+            end
+            task.wait(0.5)
+
             end
         end
     })
-        
+local Divider_4 = PetInc:CreateDivider()
 
 local Toggle_5 = PetInc:CreateToggle({
     Name = "Auto-Rank-Up",
@@ -174,6 +209,8 @@ local Toggle_5 = PetInc:CreateToggle({
             local args = {"RankUp"}
             if numericText >= rankup_cost then
                 game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
+                coinsdone = false
+                gemsdone  = false
             end
             task.wait(2)
             end
