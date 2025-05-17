@@ -341,7 +341,7 @@ local Toggle_7 = PetInc:CreateToggle({
         while Rayfield.Flags["toggle_7"].CurrentValue do
             local args = {"Plasma",true}
             game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
-            task.wait(0.1)
+            task.wait()
             end
         end
     })
@@ -406,11 +406,28 @@ local Toggle_8 = PetInc:CreateToggle({
 local Divider_8 = PetInc:CreateDivider()
 
 local Toggle_9 = PetInc:CreateToggle({
-    Name = "Auto-Rank-Up",
+    Name = "Auto-Overworld-Runes",
     CurrentValue = false,
     Flag = "toggle_9",
     Callback = function(Value)
         while Rayfield.Flags["toggle_9"].CurrentValue do
+            local args = {"Rune","Rune1"}
+            if ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.UI.Stats.Gems.TextLabel.Text) >= 5000000000 then
+                game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
+                task.wait(0.5)
+            end
+            
+            end
+        end
+    })
+local Divider_9 = PetInc:CreateDivider()
+
+local Toggle_10 = PetInc:CreateToggle({
+    Name = "Auto-Rank-Up",
+    CurrentValue = false,
+    Flag = "toggle_10",
+    Callback = function(Value)
+        while Rayfield.Flags["toggle_10"].CurrentValue do
             local rankup_cost = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.RankUp.Bg.List.Buy.Cost.text)
             local rawText = game:GetService("Players").LocalPlayer.PlayerGui.UI.Stats.Coins.TextLabel.Text
             local numericText = ReverseFormattedNumber(rawText)
@@ -427,14 +444,14 @@ local Toggle_9 = PetInc:CreateToggle({
             end
         end
     })
-local Divider_9 = PetInc:CreateDivider()
+local Divider_10 = PetInc:CreateDivider()
 
-local Toggle_10 = PetInc:CreateToggle({
+local Toggle_11 = PetInc:CreateToggle({
     Name = "Auto-Sacrifice",
     CurrentValue = false,
-    Flag = "toggle_10",
+    Flag = "toggle_11",
     Callback = function(Value)
-        while Rayfield.Flags["toggle_10"].CurrentValue do
+        while Rayfield.Flags["toggle_11"].CurrentValue do
             local rankup_cost = ReverseFormattedNumber(game:GetService("Players").LocalPlayer.PlayerGui.Sacrifice.Bg.List.Buy.Cost.text)
             local rawText = game:GetService("Players").LocalPlayer.PlayerGui.UI.Stats.Coins.TextLabel.Text
             local numericText = ReverseFormattedNumber(rawText)
