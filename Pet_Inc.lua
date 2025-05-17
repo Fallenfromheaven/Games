@@ -27,7 +27,10 @@ local suffixes  = {
     ["Ud"]  = 1e36,
     ["Dd"]  = 1e39,
     ["Td"]  = 1e42,
-    ["Qdd"] = 1e45
+    ["Qdd"] = 1e45,
+    ["Qnd"] = 1e48,
+    ["Sxd"] = 1e51,
+    ["Spd"] = 1e54
 }
 
 ---------------- custom funcs
@@ -416,7 +419,7 @@ local Toggle_9 = PetInc:CreateToggle({
                 game:GetService("ReplicatedStorage"):WaitForChild("RE"):FireServer(unpack(args))
                 task.wait(0.5)
             end
-            
+
             end
         end
     })
